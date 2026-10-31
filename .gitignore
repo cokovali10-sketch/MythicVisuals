@@ -1,0 +1,13 @@
+.gradle/
+build/
+out/
+run/
+remappedJars/
+*.iml
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
+
+logs/

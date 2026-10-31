@@ -1,0 +1,65 @@
+plugins {
+    // Non-obfuscated MC line (26.x): new plugin id, no mappings (Mojang names).
+    id 'net.fabricmc.fabric-loom' version '1.16.2'
+    id 'java'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    // loom adds fabric maven automatically; central declared in settings
+}
+
+loom {
+    // Single-environment client-only mod: everything lives in main.
+    mods {
+        'mythicvisuals' {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    // 26.x line: Mojang official artifacts, no Yarn (mirrors Fabric API 26.2 branch).
+    // Plain `implementation`: non-obfuscated MC needs no remap configurations.
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'mod_name', project.mod_name
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version, 'mod_name': project.mod_name
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+    it.options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test).configureEach {
+    it.useJUnitPlatform()
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+    from('LICENSE') {
+        rename { "${it}_${project.archives_base_name}" }
+    }
+}

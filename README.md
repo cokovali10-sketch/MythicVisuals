@@ -57,3 +57,20 @@ Jar: `build/libs/mythicvisuals-1.0.0.jar` (26.2 build).
 ## License
 
 MIT — see `LICENSE`.
+
+## Problem
+Visual effects and particle system plugin for Minecraft servers.
+
+## Architecture
+Gradle + Java. Particle emitters, animation scheduler, region-bound effects.
+
+## Trade-offs
+- Simplicity over feature richness; targeted at single-server/single-tenant use.
+- Java 17 baseline; no support for older runtimes.
+
+## Benchmarks
+- (add measurements here)
+
+## Limitations
+- Minecraft-version specific; requires matching server API.
+- No automated integration tests against a live server.
